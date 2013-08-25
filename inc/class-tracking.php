@@ -106,8 +106,6 @@ if ( !class_exists( 'Yoast_Tracking' ) ) {
 				$data = array(
 					'site'     => array(
 						'hash'      => $hash,
-						'url'       => site_url(),
-						'name'      => get_bloginfo( 'name' ),
 						'version'   => get_bloginfo( 'version' ),
 						'multisite' => is_multisite(),
 						'users'     => $wpdb->get_var( "SELECT COUNT(*) FROM wp_users INNER JOIN wp_usermeta ON (wp_users.ID = wp_usermeta.user_id) WHERE 1 = 1 AND ( wp_usermeta.meta_key = 'wp_{$blog_id}_capabilities' ) " ),
