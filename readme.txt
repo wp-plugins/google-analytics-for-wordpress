@@ -1,5 +1,5 @@
 ﻿=== Google Analytics for WordPress ===
-Contributors: joostdevalk, barrykooij
+Contributors: joostdevalk
 Donate link: http://yoast.com/donate/
 Tags: analytics, google analytics, statistics, tracking, stats, google
 Requires at least: 3.3
