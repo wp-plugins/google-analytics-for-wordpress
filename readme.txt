@@ -1,16 +1,16 @@
-﻿=== Google Analytics for WordPress ===
+﻿=== Google Analytics by Yoast ===
 Contributors: joostdevalk
 Donate link: http://yoast.com/donate/
-Tags: analytics, google analytics, statistics, tracking, stats, google
+Tags: analytics, google analytics, statistics, tracking, stats, google, yoast, yoast analytics
 Requires at least: 3.3
-Tested up to: 3.9
+Tested up to: 4.0
 Stable tag: 4.3.5
 
 Track your WordPress site easily and with lots of metadata: views per author & category, automatic tracking of outbound clicks and pageviews.
 
 == Description ==
 
-The Google Analytics for WordPress plugin allows you to track your blog easily and with lots of metadata.
+The Google Analytics by Yoast plugin for WordPress allows you to track your blog easily and with lots of metadata.
 
 Check out the [Google Analytics for WordPress video](http://www.youtube.com/watch?v=tnUXzbvXxSQ):
 
@@ -36,16 +36,16 @@ Full list of features:
 * Easily connect your Google AdSense and Google Analytics accounts.
 * Option to tag links with Google Analytics campaign tracking, with the option to use hashes (#).
 * Option anonymize IP's, for use in countries like Germany.
-* Full [debug mode](http://yoast.com/google-analytics-debug-mode/), including Firebug lite and ga_debug.js for debugging Google Analytics issues.
+* Full [debug mode](https://yoast.com/google-analytics-debug-mode/), including Firebug lite and ga_debug.js for debugging Google Analytics issues.
 * Allow local hosting of ga.js file.
 * Tracking of search engines not included in Google Analytics default tracking.
 * Tracking of login and registration forms.
 
 Other interesting stuff:
 
-* Check out the other [WordPress Plugins](http://yoast.com/wordpress/) by the same author.
-* Want to increase traffic to your WordPress blog? Check out the [WordPress SEO](http://yoast.com/articles/wordpress-seo/) Guide!
-* Check out the authors [WordPress Hosting](http://yoast.com/articles/wordpress-hosting/) experience. Good hosting is hard to come by, but it doesn't have to be expensive, Joost tells you why!
+* Check out the other [WordPress Plugins](https://yoast.com/wordpress/plugins/) by the same author.
+* Want to increase traffic to your WordPress blog? Check out the [WordPress SEO](https://yoast.com/articles/wordpress-seo/) Guide!
+* Check out the authors [WordPress Hosting](https://yoast.com/articles/wordpress-hosting/) experience. Good hosting is hard to come by, but it doesn't have to be expensive, Joost tells you why!
 
 == Installation ==
 
