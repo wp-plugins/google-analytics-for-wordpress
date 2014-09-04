@@ -1,0 +1,94 @@
+# Copyright (C) 2014 Joost de Valk
+# This file is distributed under the GPL v3.
+msgid ""
+msgstr ""
+"Project-Id-Version: Google Analytics for WordPress 5.0.0\n"
+"Report-Msgid-Bugs-To: "
+"http://wordpress.org/support/plugin/google-analytics-for-wordpress\n"
+"POT-Creation-Date: 2014-06-23 20:33:09+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Remkus de Vries <translations@yoast.com>\n"
+"Language-Team: Yoast Translate <translations@yoast.com>\n"
+"X-Generator: grunt-wp-i18n 0.4.4\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2; "
+"_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_attr__; esc_html__;esc_attr_e; "
+"esc_html_e;esc_attr_x:1,2c; esc_html_x:1,2c;\n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes\n"
+
+#: admin/class-admin.php:21 admin/class-admin.php:30 admin/class-admin.php:39
+#: admin/class-admin.php:48
+msgid "Yoast Google Analytics:"
+msgstr ""
+
+#: admin/class-admin.php:21
+msgid "General Settings"
+msgstr ""
+
+#: admin/class-admin.php:21
+msgid "Analytics"
+msgstr ""
+
+#: admin/class-admin.php:30 admin/class-admin.php:31
+msgid "Dashboard"
+msgstr ""
+
+#: admin/class-admin.php:39 admin/class-admin.php:40
+msgid "Settings"
+msgstr ""
+
+#: admin/class-admin.php:48
+msgid "Extensions"
+msgstr ""
+
+#: frontend/class-frontend.php:80
+msgid ""
+"Google Analytics tracking code not shown because you haven't setup Google "
+"Analytics for WordPress yet."
+msgstr ""
+
+#: frontend/class-frontend.php:334
+msgid ""
+"Google Analytics tracking code not shown because users over level %s are "
+"ignored."
+msgstr ""
+
+#: frontend/class-frontend.php:728
+msgid ""
+"Please set Google Analytics position to \"manual\" in the settings, or "
+"remove this call to yoast_analytics();"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Google Analytics for WordPress"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid ""
+"http://yoast.com/wordpress/google-analytics/#utm_source=wordpress&utm_"
+"medium=plugin&utm_campaign=wpgaplugin&utm_content=v420"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"This plugin makes it simple to add Google Analytics to your WordPress blog, "
+"adding lots of features, eg. custom variables and automatic clickout and "
+"download tracking."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Joost de Valk"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://yoast.com/"
+msgstr ""
