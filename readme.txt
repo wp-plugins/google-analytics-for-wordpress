@@ -392,10 +392,8 @@ Because that's where it belongs. It makes the page load faster (yes, faster, due
 
 == Screenshots ==
 
-1. Screenshot of the basic settings panel for this plugin.
-2. Screenshot of the custom variable settings panel.
-3. Screenshot of the link tracking panel.
-4. Screenshot of the advanced settings panel.
-5. Screenshot of the debugging mode in action.
+1. Screenshot of the general settings panel for this plugin.
+2. Screenshot of the universal settings panel.
+3. Screenshot of the advanced settings panel.
 
 == Upgrade Notice ==
