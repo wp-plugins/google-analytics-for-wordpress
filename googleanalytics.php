@@ -30,20 +30,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // This plugin was originally based on Rich Boakes' Analytics plugin: http://boakes.org/analytics, but has since been rewritten and refactored multiple times.
 
-define( 'GAWP_VERSION', '5.0.7' );
+define( 'GAWP_VERSION', '5.1' );
 
 define( 'GAWP_FILE', __FILE__ );
 
 define( 'GAWP_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
 
-if ( ! class_exists( 'Yoast_GA_Options' ) ) {
-	require_once 'includes/class-options.php';
+if ( ! class_exists( 'Yoast_GA_Autoload', false ) ) {
+	require_once 'includes/class-autoload.php';
 }
 
 // Only require the needed classes
 if ( is_admin() ) {
-	require_once 'admin/class-admin.php';
+	global $yoast_ga_admin;
+	$yoast_ga_admin = new Yoast_GA_Admin;
 
 } else {
-	require_once 'frontend/class-frontend.php';
+	global $yoast_ga_frontend;
+	$yoast_ga_frontend = new Yoast_GA_Frontend;
 }
