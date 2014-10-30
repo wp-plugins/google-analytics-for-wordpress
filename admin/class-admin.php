@@ -35,11 +35,6 @@ if ( ! class_exists( 'Yoast_GA_Admin' ) ) {
 				add_action( 'admin_notices', array( $this, 'config_warning' ) );
 			}
 
-			// Require analytics class
-			if ( ! class_exists( 'Yoast_Google_Analytics' ) ) {
-				require_once 'class-google-analytics.php';
-			}
-
 			if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 
 				if ( ! function_exists( 'wp_verify_nonce' ) ) {
@@ -53,15 +48,13 @@ if ( ! class_exists( 'Yoast_GA_Admin' ) ) {
 
 					// Post submitted and verified with our nonce
 					$this->save_settings( $_POST );
-
-					add_settings_error(
-						'yoast_google_analytics',
-						'yoast_google_analytics',
-						__( 'Settings saved!', 'google-analytics-for-wordpress' ),
-						'updated'
-					);
 				}
 			}
+
+			/**
+			 * Show the notifications if we have one
+			 */
+			$this->show_notification( 'ga_notifications' );
 
 			$this->connect_with_google_analytics();
 		}
@@ -80,7 +73,9 @@ if ( ! class_exists( 'Yoast_GA_Admin' ) ) {
 		 */
 		public function save_settings( $data ) {
 			foreach ( $data as $key => $value ) {
-				$this->options[$key] = $value;
+				if ( $key != 'return_tab' ) {
+					$this->options[$key] = $value;
+				}
 			}
 
 			// Check checkboxes, on a uncheck they won't be posted to this function
@@ -92,11 +87,23 @@ if ( ! class_exists( 'Yoast_GA_Admin' ) ) {
 			}
 
 			if ( $this->update_option( $this->options ) ) {
-				// Success!
+				// Success, add a new notification
+				$this->add_notification( 'ga_notifications', array(
+					'type'        => 'success',
+					'description' => __( 'Settings saved!', 'google-analytics-for-wordpress' ),
+				) );
+
 			} else {
-				// Fail..
+				// Fail, add a new notification
+				$this->add_notification( 'ga_notifications', array(
+					'type'        => 'error',
+					'description' => __( 'There where no changes to save, please try again.', 'google-analytics-for-wordpress' ),
+				) );
 			}
 
+			#redirect
+			wp_redirect( admin_url( 'admin.php' ) . '?page=yst_ga_settings#top#' . $data['return_tab'], 301 );
+			exit;
 		}
 
 		/**
@@ -106,7 +113,7 @@ if ( ! class_exists( 'Yoast_GA_Admin' ) ) {
 		 *
 		 * @return array $links
 		 */
-		function add_action_links( $links ) {
+		public function add_action_links( $links ) {
 			// add link to knowledgebase
 			// @todo UTM link fix
 			$faq_link = '<a title="Yoast Knowledge Base" href="http://kb.yoast.com/category/43-google-analytics-for-wordpress">' . __( 'FAQ', 'google-analytics-for-wordpress' ) . '</a>';
@@ -235,6 +242,8 @@ if ( ! class_exists( 'Yoast_GA_Admin' ) ) {
 		 * Add the scripts to the admin head
 		 */
 		public function enqueue_scripts() {
+			wp_enqueue_script( 'jquery-qtip', $this->plugin_url . 'js/jquery.qtip.min.js', array( 'jquery' ), '1.0.0-RC3', true );
+
 			wp_enqueue_script( 'yoast_ga_admin', $this->plugin_url . 'js/yoast_ga_admin' . $this->file_ext( '.js' ) );
 
 			// Eqneue the chosen js file
@@ -260,7 +269,8 @@ if ( ! class_exists( 'Yoast_GA_Admin' ) ) {
 		 * Load the page of a menu item in the GA plugin
 		 */
 		public function load_page() {
-			require_once $this->plugin_path . 'admin/class-admin-ga-js.php';
+			global $yoast_ga_admin_ga_js;
+			$yoast_ga_admin_ga_js = new Yoast_GA_Admin_GA_JS;
 
 			if ( isset( $_GET['page'] ) ) {
 				switch ( $_GET['page'] ) {
@@ -352,17 +362,28 @@ if ( ! class_exists( 'Yoast_GA_Admin' ) ) {
 				$input .= '<label class="ga-form ga-form-' . $type . '-label" id="yoast-ga-form-label-' . $type . '-textlabel-' . $this->form_namespace . '-' . $id . '" for="yoast-ga-form-' . $type . '-' . $this->form_namespace . '-' . $id . '" />' . $text_label . '</label>';
 			}
 
-			$input .= '</div>';
-
 			// If we get a description, append it to this select field in a new row
 			if ( ! is_null( $description ) ) {
-				$input .= '<div class="ga-form ga-form-input">';
-				$input .= '<label class="ga-form ga-form-select-label ga-form-label-left" id="yoast-ga-form-description-select-' . $this->form_namespace . '-' . $id . '" />&nbsp;</label>';
-				$input .= '<span class="ga-form ga-form-description">' . $description . '</span>';
-				$input .= '</div>';
+				$input .= $this->show_help( $id, $description );
 			}
 
+			$input .= '</div>';
+
 			return $input;
+		}
+
+		/**
+		 * Show a question mark with help
+		 *
+		 * @param string $id
+		 * @param string $description
+		 *
+		 * @return string
+		 */
+		private function show_help( $id, $description ) {
+			$help = '<img src="' . plugins_url( 'img/question-mark.png', GAWP_FILE ) . '" class="alignleft yoast_help" id="' . esc_attr( $id . 'help' ) . '" alt="' . esc_attr( $description ) . '" />';
+
+			return $help;
 		}
 
 		/**
@@ -410,15 +431,12 @@ if ( ! class_exists( 'Yoast_GA_Admin' ) ) {
 				}
 			}
 			$select .= '</select>';
-			$select .= '</div>';
 
-			// If we get a description, append it to this select field in a new row
 			if ( ! is_null( $description ) ) {
-				$select .= '<div class="ga-form ga-form-input">';
-				$select .= '<label class="ga-form ga-form-select-label ga-form-label-left" id="yoast-ga-form-description-select-' . $this->form_namespace . '-' . $id . '" />&nbsp;</label>';
-				$select .= '<span class="ga-form ga-form-description">' . __( $description, 'google-analytics-for-wordpress' ) . '</span>';
-				$select .= '</div>';
+				$select .= $this->show_help( $id, $description );
 			}
+
+			$select .= '</div>';
 
 			return $select;
 		}
@@ -446,15 +464,12 @@ if ( ! class_exists( 'Yoast_GA_Admin' ) ) {
 				$text .= '<label class="ga-form ga-form-select-label ga-form-label-left" id="yoast-ga-form-label-select-' . $this->form_namespace . '-' . $id . '" />' . __( $title, 'google-analytics-for-wordpress' ) . ':</label>';
 			}
 			$text .= '<textarea rows="5" cols="60" name="' . $name . '" id="yoast-ga-form-textarea-' . $this->form_namespace . '-' . $id . '">' . stripslashes( $this->options[$name] ) . '</textarea>';
-			$text .= '</div>';
 
-			// If we get a description, append it to this select field in a new row
 			if ( ! is_null( $description ) ) {
-				$text .= '<div class="ga-form ga-form-input">';
-				$text .= '<label class="ga-form ga-form-select-label ga-form-label-left" id="yoast-ga-form-description-select-' . $this->form_namespace . '-' . $id . '" />&nbsp;</label>';
-				$text .= '<span class="ga-form ga-form-description">' . __( $description, 'google-analytics-for-wordpress' ) . '</span>';
-				$text .= '</div>';
+				$text .= $this->show_help( $id, $description );
 			}
+
+			$text .= '</div>';
 
 			return $text;
 		}
@@ -592,8 +607,71 @@ if ( ! class_exists( 'Yoast_GA_Admin' ) ) {
 			require 'views/content-footer.php';
 		}
 
+		/**
+		 * Returns a list of all available extensions
+		 *
+		 * @return array
+		 */
+		public function get_extensions() {
+			$extensions = array(
+				'ga_premium' => (object) array(
+					'url'    => 'https://yoast.com/wordpress/plugins/google-analytics/',
+					'title'  => __( 'Google Analytics by Yoast Premium', 'google-analytics-for-wordpress' ),
+					'desc'   => __( 'The premium version of Google Analytics for WordPress with more features &amp; support.', 'google-analytics-for-wordpress' ),
+					'status' => 'uninstalled',
+				),
+				'ecommerce'  => (object) array(
+					'url'    => 'https://yoast.com/wordpress/plugins/google-analytics/',
+					'title'  => __( 'Google Analytics', 'google-analytics-for-wordpress' ) . '<br />' . __( 'E-Commerce tracking', 'google-analytics-for-wordpress' ),
+					'desc'   => __( 'Track your E-Commerce data and transactions with this E-Commerce extension for Google Analytics.', 'google-analytics-for-wordpress' ),
+					'status' => 'uninstalled',
+				),
+			);
+
+			$extensions = apply_filters( 'yst_ga_extension_status', $extensions );
+
+			return $extensions;
+		}
+
+		/**
+		 * Add a notification to the notification transient
+		 *
+		 * @param $transient_name
+		 * @param $settings
+		 */
+		private function add_notification( $transient_name, $settings ) {
+			set_transient( $transient_name, $settings, MINUTE_IN_SECONDS );
+		}
+
+		/**
+		 * Show the notification that should be set, after showing the notification this function unset the transient
+		 *
+		 * @param string $transient_name The name of the transient which contains the notification
+		 */
+		public function show_notification( $transient_name ) {
+			$transient = get_transient( $transient_name );
+
+			if ( isset( $transient['type'] ) && isset( $transient['description'] ) ) {
+				if ( $transient['type'] == 'success' ) {
+					add_settings_error(
+						'yoast_google_analytics',
+						'yoast_google_analytics',
+						$transient['description'],
+						'updated'
+					);
+				} else {
+					add_settings_error(
+						'yoast_google_analytics',
+						'yoast_google_analytics',
+						$transient['description'],
+						'error'
+					);
+				}
+
+				delete_transient( $transient_name );
+			}
+		}
+
 	}
 
-	global $yoast_ga_admin;
-	$yoast_ga_admin = new Yoast_GA_Admin;
 }
