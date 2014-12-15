@@ -57,7 +57,7 @@ Release Date: December 15th, 2014
 	* Moved from OAuth1 to OAuth2 for Google Analytics API requests.
 	* Open authentication and reauthentication for Google in a new window.
 	* Force reloading of CSS and JS on version change of plugin.
-	* Refactoring fetching profiles from Google Analytics
+	* Refactored fetching profiles from Google Analytics.
 
 = 5.2.3 =
 
