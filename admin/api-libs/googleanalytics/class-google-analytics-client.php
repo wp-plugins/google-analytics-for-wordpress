@@ -1,10 +1,6 @@
 <?php
 
-if ( ! class_exists( 'Google_Client' ) ) {
-	require_once( WPSEO_PREMIUM_PATH . 'classes/google/Google_Client.php' );
-}
-
-class Yoast_Google_Analytics_Client extends Google_Client {
+class Yoast_Google_Analytics_Client extends Yoast_Google_Client {
 
 	protected $http_response_code;
 
@@ -122,7 +118,7 @@ class Yoast_Google_Analytics_Client extends Google_Client {
 				}
 
 			}
-		} catch ( Google_AuthException $exception ) {
+		} catch ( Yoast_Google_AuthException $exception ) {
 			return false;
 		}
 	}
@@ -137,7 +133,7 @@ class Yoast_Google_Analytics_Client extends Google_Client {
 
 	public function do_request( $target_request_url ) {
 		// Do list sites request
-		$request = new Google_HttpRequest( $target_request_url );
+		$request = new Yoast_Google_HttpRequest( $target_request_url );
 
 		// Get list sites response
 		$response = $this->getIo()->authenticatedRequest( $request );
