@@ -4,7 +4,7 @@ Donate link: https://yoast.com/donate/
 Tags: analytics, google analytics, statistics, tracking, stats, google, yoast
 Requires at least: 3.8
 Tested up to: 4.1
-Stable tag: 5.2.5
+Stable tag: 5.2.4
 
 Track your WordPress site easily with the latest tracking codes and lots added data for search result pages and error pages.
 
@@ -50,6 +50,8 @@ This section describes how to install the plugin and get it working.
 == Changelog ==
 
 = 5.2.5 =
+
+This release was rolled back.
 
 Release Date: December 16th, 2014
 
